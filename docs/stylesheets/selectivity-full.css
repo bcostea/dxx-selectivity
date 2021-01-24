@@ -189,7 +189,7 @@ input[type='text'].selectivity-multiple-input {
 
 .selectivity-caret {
   position: absolute;
-  right: 5px;
+  right: 10px;
   top: 0.7em; }
 
 @media only screen and (max-device-width: 480px) {
