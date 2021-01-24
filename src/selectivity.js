@@ -80,7 +80,7 @@ export default function Selectivity(options) {
         this.setData(options.data || null, { triggerChange: false });
     }
 
-    this.el.setAttribute("tabindex", options.tabIndex || 0);
+    this.el.removeAttribute('tabindex');
 
     this.events = new EventListener(this.el, this);
     this.events.on({
@@ -247,12 +247,12 @@ assign(Selectivity.prototype, {
 
         const selectivity = this;
         const inputListeners = this.options.inputListeners || Selectivity.InputListeners;
-        inputListeners.forEach(function(listener) {
+        inputListeners.forEach(function (listener) {
             listener(selectivity, input, options);
         });
 
         if (!options || options.search !== false) {
-            input.addEventListener("keyup", function(event) {
+            input.addEventListener("keyup", function (event) {
                 if (!event.defaultPrevented) {
                     selectivity.search(event.target.value);
                 }
@@ -277,6 +277,7 @@ assign(Selectivity.prototype, {
                 position: this.options.positionDropdown,
                 query: this.options.query,
                 showSearchInput: this.options.showSearchInputInDropdown !== false,
+                tabIndex: this.options.tabIndex
             });
         }
 
@@ -423,7 +424,7 @@ assign(Selectivity.prototype, {
         options = options || {};
 
         const selectivity = this;
-        Selectivity.OptionListeners.forEach(function(listener) {
+        Selectivity.OptionListeners.forEach(function (listener) {
             listener(selectivity, options);
         });
 
@@ -469,7 +470,7 @@ assign(Selectivity.prototype, {
         if (this.options.initSelection) {
             this.options.initSelection(
                 newValue,
-                function(data) {
+                function (data) {
                     if (this._value === newValue) {
                         this._data = this.validateData(data);
 
@@ -667,7 +668,7 @@ Selectivity.Templates = {};
  *
  * @return The item in the array with the given ID, or null if the item was not found.
  */
-Selectivity.findById = function(array, id) {
+Selectivity.findById = function (array, id) {
     const index = Selectivity.findIndexById(array, id);
     return index > -1 ? array[index] : null;
 };
@@ -680,7 +681,7 @@ Selectivity.findById = function(array, id) {
  *
  * @return The index of the item in the array with the given ID, or -1 if the item was not found.
  */
-Selectivity.findIndexById = function(array, id) {
+Selectivity.findIndexById = function (array, id) {
     for (let i = 0, length = array.length; i < length; i++) {
         if (array[i].id === id) {
             return i;
@@ -698,7 +699,7 @@ Selectivity.findIndexById = function(array, id) {
  *
  * @return The item in the array with the given ID, or null if the item was not found.
  */
-Selectivity.findNestedById = function(array, id) {
+Selectivity.findNestedById = function (array, id) {
     for (let i = 0, length = array.length; i < length; i++) {
         const item = array[i];
         let result;
@@ -728,14 +729,14 @@ Selectivity.findNestedById = function(array, id) {
  *         arguments: The this object on which you want to execute the method and the name of the
  *         method. Any arguments past those are passed to the superclass method.
  */
-Selectivity.inherits = function(SubClass, SuperClass, prototype) {
+Selectivity.inherits = function (SubClass, SuperClass, prototype) {
     SubClass.prototype = assign(
         Object.create(SuperClass.prototype),
         { constructor: SubClass },
         prototype,
     );
 
-    return function(self, methodName) {
+    return function (self, methodName) {
         SuperClass.prototype[methodName].apply(self, Array.prototype.slice.call(arguments, 2));
     };
 };
@@ -748,7 +749,7 @@ Selectivity.inherits = function(SubClass, SuperClass, prototype) {
  *
  * @return true if the value is a valid ID, false otherwise.
  */
-Selectivity.isValidId = function(id) {
+Selectivity.isValidId = function (id) {
     return typeof id === "number" || isString(id);
 };
 
@@ -763,7 +764,7 @@ Selectivity.isValidId = function(id) {
  *
  * @return true if the text matches the term, false otherwise.
  */
-Selectivity.matcher = function(item, term) {
+Selectivity.matcher = function (item, term) {
     let result = null;
     if (Selectivity.transformText(item.text).indexOf(term) > -1) {
         result = item;
@@ -787,7 +788,7 @@ Selectivity.matcher = function(item, term) {
  *
  * @return Object containing 'id' and 'text' properties.
  */
-Selectivity.processItem = function(item) {
+Selectivity.processItem = function (item) {
     if (Selectivity.isValidId(item)) {
         return { id: item, text: `${item}` };
     } else if (item && (Selectivity.isValidId(item.id) || item.children) && isString(item.text)) {
@@ -808,7 +809,7 @@ Selectivity.processItem = function(item) {
  *
  * @return Array with items.
  */
-Selectivity.processItems = function(items) {
+Selectivity.processItems = function (items) {
     if (Array.isArray(items)) {
         return items.map(Selectivity.processItem);
     } else {
@@ -824,6 +825,6 @@ Selectivity.processItems = function(items) {
  *
  * @return The transformed string.
  */
-Selectivity.transformText = function(string) {
+Selectivity.transformText = function (string) {
     return string.toLowerCase();
 };

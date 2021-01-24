@@ -40,6 +40,7 @@ export default function SelectivityDropdown(selectivity, options) {
             dropdownCssClass: selectivity.options.dropdownCssClass,
             searchInputPlaceholder: selectivity.options.searchInputPlaceholder,
             showSearchInput: options.showSearchInput,
+            tabIndex: options.tabIndex,
         }),
     );
 
@@ -193,7 +194,7 @@ assign(SelectivityDropdown.prototype, {
         this.resultsContainer.innerHTML += this.selectivity.template("loading");
 
         this.options.query({
-            callback: function(response) {
+            callback: function (response) {
                 if (response && response.results) {
                     this._showResults(Selectivity.processItems(response.results), {
                         add: true,
@@ -232,7 +233,7 @@ assign(SelectivityDropdown.prototype, {
     renderItems(items) {
         const selectivity = this.selectivity;
         return items
-            .map(function(item) {
+            .map(function (item) {
                 let result = selectivity.template(item.id ? "resultItem" : "resultLabel", item);
                 if (item.children) {
                     result += selectivity.template("resultChildren", {
@@ -265,7 +266,7 @@ assign(SelectivityDropdown.prototype, {
             );
         } else if (this.options.query) {
             this.options.query({
-                callback: function(response) {
+                callback: function (response) {
                     if (response && response.results) {
                         this._showResults(Selectivity.processItems(response.results), {
                             hasMore: !!response.more,
@@ -544,7 +545,7 @@ assign(SelectivityDropdown.prototype, {
         }
 
         const selector = suppressWheelSelector || ".selectivity-results-container";
-        this.events.on("wheel", selector, function(event) {
+        this.events.on("wheel", selector, function (event) {
             // Thanks to Troy Alford:
             // http://stackoverflow.com/questions/5802467/prevent-scrolling-of-parent-element
 
