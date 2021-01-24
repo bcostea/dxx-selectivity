@@ -21,13 +21,13 @@ function renderToString(element) {
  *             <div className='selectivity-single-select'>
  *                 <input className='selectivity-single-select-input' type='text' />
  *                 <div class='selectivity-single-result-container' />
- *                 <i className='fa fa-sort-desc selectivity-caret' />
+ *                 <i className='fa fa-chevron-down selectivity-caret' />
  *             </div>
  *         )
  *     };
  */
 const templateMethod = Selectivity.prototype.template;
-Selectivity.prototype.template = function(templateName, options) {
+Selectivity.prototype.template = function (templateName, options) {
     const template = this.templates[templateName];
     if (isValidElement(template)) {
         return renderToString(template);
