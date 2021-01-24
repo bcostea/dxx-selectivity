@@ -1,3 +1,10 @@
+# dxx-selectivity
+I've been using this with local changes since 2015 and initially I created a fork and reconciled my
+code but I realised that it's getting deprecated and I did want to deviate so I cloned the repo.
+
+If you find it useful feel free to use it.
+
+
 # Selectivity.js
 
 Modular and light-weight selection library.
